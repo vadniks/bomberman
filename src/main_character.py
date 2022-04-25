@@ -3,22 +3,22 @@ import sys
 
 
 class Player:
-    player_stand = pygame.image.load('images/animation_player/pygame_idle.png')
+    player_stand = pygame.image.load('../res/images/animation_player/pygame_idle.png')
     player_walk_left = [
-        pygame.image.load('images/animation_player/pygame_left_1.png'),
-        pygame.image.load('images/animation_player/pygame_left_2.png'),
-        pygame.image.load('images/animation_player/pygame_left_3.png'),
-        pygame.image.load('images/animation_player/pygame_left_4.png'),
-        pygame.image.load('images/animation_player/pygame_left_5.png'),
-        pygame.image.load('images/animation_player/pygame_left_6.png')
+        pygame.image.load('../res/images/animation_player/pygame_left_1.png'),
+        pygame.image.load('../res/images/animation_player/pygame_left_2.png'),
+        pygame.image.load('../res/images/animation_player/pygame_left_3.png'),
+        pygame.image.load('../res/images/animation_player/pygame_left_4.png'),
+        pygame.image.load('../res/images/animation_player/pygame_left_5.png'),
+        pygame.image.load('../res/images/animation_player/pygame_left_6.png')
     ]
     player_walk_right = [
-        pygame.image.load('images/animation_player/pygame_right_1.png'),
-        pygame.image.load('images/animation_player/pygame_right_2.png'),
-        pygame.image.load('images/animation_player/pygame_right_3.png'),
-        pygame.image.load('images/animation_player/pygame_right_4.png'),
-        pygame.image.load('images/animation_player/pygame_right_5.png'),
-        pygame.image.load('images/animation_player/pygame_right_6.png')
+        pygame.image.load('../res/images/animation_player/pygame_right_1.png'),
+        pygame.image.load('../res/images/animation_player/pygame_right_2.png'),
+        pygame.image.load('../res/images/animation_player/pygame_right_3.png'),
+        pygame.image.load('../res/images/animation_player/pygame_right_4.png'),
+        pygame.image.load('../res/images/animation_player/pygame_right_5.png'),
+        pygame.image.load('../res/images/animation_player/pygame_right_6.png')
     ]
 
     def __init__(self, x, y):
