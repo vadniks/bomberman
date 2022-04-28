@@ -9,7 +9,8 @@ class Player:
     У персонажа есть здоровье и время до проигрыша
     Цель - убить приведений и найти дверь, спрятанную за рушимыми стенами
     """
-    player_stand = pygame.image.load('../res/images/animation_player/pygame_idle.png')
+    '''
+    player_stand = pygame.image.load('res/images/animation_player/pygame_idle.png')
     player_walk_left = [
         pygame.image.load('../res/images/animation_player/pygame_left_1.png'),
         pygame.image.load('../res/images/animation_player/pygame_left_2.png'),
@@ -26,6 +27,7 @@ class Player:
         pygame.image.load('../res/images/animation_player/pygame_right_5.png'),
         pygame.image.load('../res/images/animation_player/pygame_right_6.png')
     ]
+    '''
 
     def __init__(self, x, y):
         """
