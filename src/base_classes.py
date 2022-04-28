@@ -4,6 +4,11 @@ from random import randrange
 
 # Библиотека классов
 class Game_over:
+    """
+    Окончание игры
+
+    В случае, если
+    """
     def __init__(self, end):
         self.game_over = True
         self.time = 500
@@ -17,7 +22,7 @@ class Game_over:
     def start_game(self):
         return self.game_over
 
-    def process_event(self,event):
+    def process_event(self, event):
         pass
 
     def process_draw(self, screen):
@@ -32,7 +37,7 @@ class Game_over:
 
 
 class BreakWall:
-    sprite = pygame.image.load('images/WallBrack.png')
+    sprite = pygame.image.load('res/images/WallBrack.png')
 
     def __init__(self, x, y):
         self.enable = True
@@ -52,7 +57,7 @@ class BreakWall:
 
 
 class UnBreakWall:
-    sprite = pygame.image.load('images/WallUnbrack.png')
+    sprite = pygame.image.load('res/images/WallUnbrack.png')
 
     def __init__(self, x, y):
         self.rect = self.sprite.get_rect()
@@ -318,7 +323,7 @@ class PlayerMenu:
 
 
 class Player:
-    player_stand = pygame.image.load('images/player.png')
+    player_stand = pygame.image.load('res/images/player.png')
     '''
     player_walk_left = [pygame.image.load('images/animation_player/pygame_left_1.png'),
                         pygame.image.load('images/animation_player/pygame_left_2.png'),
@@ -444,9 +449,9 @@ class RGBScreen:
 
 
 class MainMenu:
-    font = "Retro.ttf"
-    bomber_logo1 = pygame.image.load('images/bomb.png')
-    bomber_logo2 = pygame.image.load('images/bomb.png')
+    font = "res/fonts/Retro.ttf"
+    bomber_logo1 = pygame.image.load('res/images/bomb.png')
+    bomber_logo2 = pygame.image.load('res/images/bomb.png')
     logo1_geom = bomber_logo1.get_rect()
     logo2_geom = bomber_logo2.get_rect()
     logo1_geom.x = 50
@@ -458,8 +463,8 @@ class MainMenu:
         self.work = work
         self.selected = "start"
         self.title = self.text_format("Bomberman", self.font, 90, RGBScreen.YELLOW)
-        self.bomber_logo1 = pygame.image.load('images/bomb.png')
-        self.bomber_logo2 = pygame.image.load('images/bomb.png')
+        self.bomber_logo1 = pygame.image.load('res/images/bomb.png')
+        self.bomber_logo2 = pygame.image.load('res/images/bomb.png')
         self.logo1_geom = self.bomber_logo1.get_rect()
         self.logo2_geom = self.bomber_logo2.get_rect()
         self.logo1_geom.x = 290
@@ -516,9 +521,9 @@ class MainMenu:
 
 
 class Bomb:
-    sprite_bomb = pygame.image.load('images/bomb.png')
-    sprite_bomb_puls = pygame.image.load('images/bomb_puls.png')
-    sprite_bomb_Boom = pygame.image.load('images/bomb_end.png')
+    sprite_bomb = pygame.image.load('res/images/bomb.png')
+    sprite_bomb_puls = pygame.image.load('res/images/bomb_puls.png')
+    sprite_bomb_Boom = pygame.image.load('res/images/bomb_end.png')
 
     def __init__(self, x, y):
         self.rect = self.sprite_bomb.get_rect()
@@ -557,11 +562,11 @@ class Bomb:
 
 
 class Fire:
-    sprite_fire = pygame.image.load('images/fireStolb.png')
-    sprite_fire_legTop = pygame.image.load('images/F3.png')
-    sprite_fire_legRight = pygame.image.load('images/F4.png')
-    sprite_fire_legBottom = pygame.image.load('images/F1.png')
-    sprite_fire_legLeft = pygame.image.load('images/F2.png')
+    sprite_fire = pygame.image.load('res/images/fireStolb.png')
+    sprite_fire_legTop = pygame.image.load('res/images/F3.png')
+    sprite_fire_legRight = pygame.image.load('res/images/F4.png')
+    sprite_fire_legBottom = pygame.image.load('res/images/F1.png')
+    sprite_fire_legLeft = pygame.image.load('res/images/F2.png')
 
     def __init__(self, x, y):
         self.rect = [self.sprite_fire.get_rect(), self.sprite_fire_legTop.get_rect(),
@@ -597,7 +602,7 @@ class Fire:
 
 
 class GhostBot:
-    ghost = pygame.image.load('images/ErupbCenter.png')
+    ghost = pygame.image.load('res/images/ErupbCenter.png')
 
     def __init__(self, x, y):
         self.rect = self.ghost.get_rect()
@@ -631,7 +636,7 @@ class GhostBot:
 
 
 class Door:
-    door = pygame.image.load('images/door.png')
+    door = pygame.image.load('res/images/door.png')
 
     def __init__(self, x, y):
         self.rect = self.door.get_rect()
