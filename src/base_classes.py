@@ -7,25 +7,52 @@ class Game_over:
     """
     Окончание игры
 
-    В случае, если
+    В случае, если все привидения повержены и персонаж выжил - мы побеждаем
+    Иначе, проигрываем
     """
     def __init__(self, end):
+        """
+        Объявление первоначальных переменных
+        :param end:
+        """
+
         self.game_over = True
         self.time = 500
         self.end = end
 
     def process_logic(self):
+        """
+        Подсчёт времени
+
+        Если не успеть выиграть до окончания таймера - мы проигрываем
+
+        :return:
+        """
+
         if self.time < 0:
             self.game_over = False
         self.time -= 1
 
     def start_game(self):
+        """
+        Новый старт игры
+
+        :return:
+        """
+
         return self.game_over
 
     def process_event(self, event):
         pass
 
     def process_draw(self, screen):
+        """
+        Отрисовка результата игры
+
+        :param screen:
+        :return:
+        """
+
         if self.end:
             screen.fill(RGBScreen.WHITE)
             Text_lifes = pygame.font.SysFont('Comic Sans MS', 72, True, False).render('You WIN ', True, [0, 0, 128])
@@ -37,15 +64,32 @@ class Game_over:
 
 
 class BreakWall:
+    """
+    Класс ломаемой стены
+    """
+
     sprite = pygame.image.load('res/images/WallBrack.png')
 
     def __init__(self, x, y):
+        """
+        Объявление и выравнивание спрайта стены
+        :param x:
+        :param y:
+        """
+
         self.enable = True
         self.rect = self.sprite.get_rect()
         self.rect.x = x
         self.rect.y = y
 
     def process_draw(self, screen):
+        """
+        Отрисовка стены
+
+        :param screen:
+        :return:
+        """
+
         if self.enable:
             screen.blit(self.sprite, self.rect)
 
@@ -57,14 +101,31 @@ class BreakWall:
 
 
 class UnBreakWall:
+    """
+    Класс неломаемой стены
+    """
+
     sprite = pygame.image.load('res/images/WallUnbrack.png')
 
     def __init__(self, x, y):
+        """
+            Объявление и выравнивание спрайта стены
+            :param x:
+            :param y:
+        """
+
         self.rect = self.sprite.get_rect()
         self.rect.x = x
         self.rect.y = y
 
     def process_draw(self, screen):
+        """
+            Отрисовка стены
+
+            :param screen:
+            :return:
+        """
+
         screen.blit(self.sprite, self.rect)
 
     def process_event(self, event):
@@ -75,7 +136,13 @@ class UnBreakWall:
 
 
 class Field:
+    """
+    Класс поля игры
+    """
     def __init__(self):
+        """
+        Отрисовка поля и выравнивание блоков
+        """
         self.x = 0  # абсцисса начала поля
         self.y = 101  # ордината начала поля
         self.wight = 23  # ширина поля
@@ -112,7 +179,8 @@ class Field:
                         self.y + y * self.size == self.BrackWalls[i].rect.y)):
                     ist_on_anther_pint = False
             if (not ((x % 2 == 0) and (y % 2 == 0))) \
-                and ((y * self.size != self.Player.rect.y) and ((y + 1) * self.size != self.Player.rect.y) and ((y - 1) * self.size != self.Player.rect.y)
+                and ((y * self.size != self.Player.rect.y) and ((y + 1) * self.size != self.Player.rect.y) and ((y - 1)
+                        * self.size != self.Player.rect.y)
                 and (x * self.size != self.Player.rect.x) and ((x + 1) * self.size != self.Player.rect.x) and (
                 (x - 1) * self.size != self.Player.rect.x)) and ist_on_anther_pint:
                 if BWcount_tmp == self.BWcount // 2: self.Door = Door(self.x + x * self.size, self.y + y * self.size)
@@ -140,6 +208,13 @@ class Field:
                 GhostsBotscount_tmp += 1
 
     def process_draw(self, screen):
+        """
+        Отрисовка необходимых элементов
+
+        :param screen:
+        :return:
+        """
+
         pygame.draw.rect(screen, (0, 100, 0), pygame.Rect(self.x, self.y, 1280, 720), 0)  # Задний фон
         self.Door.process_draw(screen)  # Дверь
         self.Fire.process_draw(screen)  # Огонь
@@ -154,6 +229,13 @@ class Field:
         self.Player.process_draw(screen)  # Игрок
 
     def process_event(self, event):
+        """
+        Отрисовка игрока, меню, бомб и других элементов
+
+        :param event:
+        :return:
+        """
+
         self.Player.process_event(event)  # Игрок
         self.Bomb.process_event(event, (self.x * self.size) + (self.Player.rect.x // self.size) * self.size, (self.y - self.size) + (self.Player.rect.y // self.size) * self.size) # Бомба
         self.Fire.process_event(self.Bomb.give_existing(), self.Bomb.rect.x, self.Bomb.rect.y) # Огонь
@@ -161,6 +243,12 @@ class Field:
         for i in range(len(self.GhostsBots)): self.GhostsBots[i].process_event(event)  # Боты
 
     def process_logic(self):
+        """
+        Проверка коллизий
+
+        :return:
+        """
+
         if self.PM.lifes <= 0 or int(self.PM.timer - pygame.time.get_ticks()) <= 0:
             self.work = False
         self.Player.process_logic()
@@ -290,8 +378,18 @@ class Field:
 
 
 class PlayerMenu:
+    """
+    Меню-интерфейс игры
+    """
 
     def __init__(self, lifes, timer, points):
+        """
+        Инициализация необходимых параметров игры
+
+        :param lifes:
+        :param timer:
+        :param points:
+        """
         self.lifes = lifes
         self.timer = timer
         self.tmp_timer = timer
@@ -301,6 +399,13 @@ class PlayerMenu:
         pass
 
     def process_draw(self, screen):
+        """
+        Отрисовка таймера
+
+        :param screen:
+        :return:
+        """
+
         self.tmp_timer = int(self.tmp_timer - pygame.time.get_ticks() / 1000)
         pygame.draw.rect(screen, RGBScreen.LIGHT_GRAY, pygame.Rect(0, 0, 1280, 102), 0)
         Text_ctimer = pygame.font.SysFont('Comic Sans MS', 50, True, False).render(
@@ -323,6 +428,9 @@ class PlayerMenu:
 
 
 class Player:
+    """
+    Класс игрока(персонажа)
+    """
     player_stand = pygame.image.load('res/images/player.png')
     '''
     player_walk_left = [pygame.image.load('images/animation_player/pygame_left_1.png'),
@@ -340,6 +448,12 @@ class Player:
     '''
 
     def __init__(self, x, y):
+        """
+        Отрисовка персонажа и присвоение необходимых данных
+
+        :param x:
+        :param y:
+        """
         self.start_x = x
         self.start_y = y
         self.rect = self.player_stand.get_rect()
@@ -358,6 +472,13 @@ class Player:
         self.bomb = False
 
     def process_event(self, event):
+        """
+        Передвижение и взаимодействие с элементами игры персонажем
+
+        :param event:
+        :return:
+        """
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 self.bomb = True
@@ -383,6 +504,15 @@ class Player:
         self.dop(self.left, self.right, self.top, self.down)
 
     def dop(self, left, right, top, down):
+        """
+        Проверка на выход за карту
+
+        :param left:
+        :param right:
+        :param top:
+        :param down:
+        :return:
+        """
         if left:
             self.shiftx = -self.shift
         elif right:
@@ -427,6 +557,9 @@ class Player:
 
 
 class RGBScreen:
+    """
+    Класс создания рандомного цвета интерфейса
+    """
     GREEN = [0, 255, 0]
     BLUE = [0, 0, 255]
     RED = [255, 0, 0]
@@ -449,6 +582,10 @@ class RGBScreen:
 
 
 class MainMenu:
+    """
+    Класс главного меню игры
+    """
+
     font = "res/fonts/Retro.ttf"
     bomber_logo1 = pygame.image.load('res/images/bomb.png')
     bomber_logo2 = pygame.image.load('res/images/bomb.png')
@@ -460,6 +597,11 @@ class MainMenu:
     logo2_geom.y = 50
 
     def __init__(self, work=True):
+        """
+        Отрисовка меню
+
+        :param work:
+        """
         self.work = work
         self.selected = "start"
         self.title = self.text_format("Bomberman", self.font, 90, RGBScreen.YELLOW)
@@ -474,11 +616,26 @@ class MainMenu:
 
     @staticmethod
     def text_format(message, textFont, textSize, textColor):
+        """
+        Установка шрифтов и текста
+
+        :param message:
+        :param textFont:
+        :param textSize:
+        :param textColor:
+        :return:
+        """
         newFont = pygame.font.Font(textFont, textSize)
         newText = newFont.render(message, 0, textColor)
         return newText
 
     def process_logic(self):
+        """
+        Обработка выбора персонажем начала игры или выхода из нее
+
+        :return:
+        """
+
         if self.work == True:
             self.title = self.text_format("Bomberman", self.font, 150, RGBScreen.YELLOW)
             if self.selected == "start":
@@ -494,6 +651,13 @@ class MainMenu:
             self.quit_rect = self.text_quit.get_rect()
 
     def process_event(self, event):
+        """
+        Выбор кнопок на главном меню - выйти или играть
+
+        :param event:
+        :return:
+        """
+
         if self.work == True:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
@@ -507,6 +671,13 @@ class MainMenu:
                         pygame.quit()
 
     def process_draw(self, screen):
+        """
+        Отрисовка меню игры
+
+        :param screen:
+        :return:
+        """
+
         if self.work == True:
             screen.fill(RGBScreen.menu_green)
             width, height = pygame.display.Info().current_w, pygame.display.Info().current_h
@@ -521,11 +692,24 @@ class MainMenu:
 
 
 class Bomb:
+    """
+    Класс бомбы
+
+    Бомбой можно рушить стены и уничтожать призраков
+    Игрок при столкновении так же теряет здоровье
+    """
     sprite_bomb = pygame.image.load('res/images/bomb.png')
     sprite_bomb_puls = pygame.image.load('res/images/bomb_puls.png')
     sprite_bomb_Boom = pygame.image.load('res/images/bomb_end.png')
 
     def __init__(self, x, y):
+        """
+        Присвоение необходимых параметров бомбе
+
+        :param x:
+        :param y:
+        """
+
         self.rect = self.sprite_bomb.get_rect()
         self.exist_of_bomb = False
         self.animCount = 0
@@ -533,12 +717,24 @@ class Bomb:
         self.rect.y = y
 
     def give_existing(self):
+        """
+        Установка анимации бомбе
+
+        :return:
+        """
         if self.animCount >= 75:
             self.animCount = 0
             return True
 
 
     def process_draw(self, screen):
+        """
+        Установка бомбы и создание эффекта взрыва
+
+        :param screen:
+        :return:
+        """
+
         if self.exist_of_bomb:
             if 0 <= self.animCount <= 75:
                 if (0 <= self.animCount <= 15) or (30 <= self.animCount <= 45) or (55 <= self.animCount <= 60):
@@ -549,6 +745,12 @@ class Bomb:
                     screen.blit(self.sprite_bomb_puls, self.rect)
 
     def process_logic(self):
+        """
+        Удаление бомбы
+
+        :return:
+        """
+
         if self.exist_of_bomb:
             self.animCount += 1
             if self.animCount >= 77:
@@ -562,6 +764,11 @@ class Bomb:
 
 
 class Fire:
+    """
+    Класс огня от бомбы
+    Появляется при ее взрыве
+    """
+
     sprite_fire = pygame.image.load('res/images/fireStolb.png')
     sprite_fire_legTop = pygame.image.load('res/images/F3.png')
     sprite_fire_legRight = pygame.image.load('res/images/F4.png')
@@ -569,6 +776,13 @@ class Fire:
     sprite_fire_legLeft = pygame.image.load('res/images/F2.png')
 
     def __init__(self, x, y):
+        """
+        Установка параметров для огонька
+
+        :param x:
+        :param y:
+        """
+
         self.rect = [self.sprite_fire.get_rect(), self.sprite_fire_legTop.get_rect(),
                      self.sprite_fire_legRight.get_rect(), self.sprite_fire_legBottom.get_rect(),
                      self.sprite_fire_legLeft.get_rect()]
@@ -578,6 +792,13 @@ class Fire:
         self.exist_of_fire = False
 
     def process_draw(self, screen):
+        """
+        Появление огня - отрисовка
+
+        :param screen:
+        :return:
+        """
+
         if self.exist_of_fire:
             screen.blit(self.sprite_fire, (self.rect[0].x, self.rect[0].y))
             screen.blit(self.sprite_fire_legRight, (self.rect[1].x, self.rect[1].y))
@@ -586,6 +807,13 @@ class Fire:
             screen.blit(self.sprite_fire_legLeft, (self.rect[3].x, self.rect[0].y))
 
     def process_logic(self, sized):
+        """
+        Удаление огня
+
+        :param sized:
+        :return:
+        """
+
         self.rect[1].x, self.rect[1].y = self.rect[0].x + sized, self.rect[0].y
         self.rect[2].x, self.rect[2].y = self.rect[0].x, self.rect[0].y + sized
         self.rect[3].x, self.rect[3].y = self.rect[0].x - sized, self.rect[0].y
@@ -602,9 +830,20 @@ class Fire:
 
 
 class GhostBot:
+    """
+    Класс привидения - бота
+
+    Бот может уменьшать здоровье персонажа и двигаться по карте
+    """
     ghost = pygame.image.load('res/images/ErupbCenter.png')
 
     def __init__(self, x, y):
+        """
+        Инициализация необходимых параметров привидения
+
+        :param x:
+        :param y:
+        """
         self.rect = self.ghost.get_rect()
         self.alive = True
         self.animCount = 0
@@ -613,12 +852,23 @@ class GhostBot:
         self.rand = 1
 
     def process_draw(self, screen):
+        """
+        Отрисовка привидения
+
+        :param screen:
+        :return:
+        """
         screen.blit(self.ghost, self.rect)
 
     def process_event(self, event):
         pass
 
     def process_logic(self):
+        """
+        Жизнедеятельность привидения
+
+        :return:
+        """
 
         if self.alive:
             self.animCount += 1
@@ -636,14 +886,29 @@ class GhostBot:
 
 
 class Door:
+    """
+    Класс двери
+
+    Единственный способ выиграть - убить всех привидений и уйти чез спрятанную за стенами дверь
+    """
     door = pygame.image.load('res/images/door.png')
 
     def __init__(self, x, y):
+        """
+        Инициализация параметров двери
+
+        :param x:
+        :param y:
+        """
+
         self.rect = self.door.get_rect()
         self.rect.x = x
         self.rect.y = y
 
     def process_draw(self, screen):
+        """
+        Отрисовка двери
+        """
         screen.blit(self.door, self.rect)
 
     def process_event(self, event):
